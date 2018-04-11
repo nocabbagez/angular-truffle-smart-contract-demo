@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
-import {MetaCoinService, Web3Service} from '../services/services';
+import {MetaCoinService, Web3Service, TokenService} from '../services/services';
 import { MetacoinComponent } from './metacoin/metacoin.component';
-import { CrowdfundComponent } from './crowdfund/crowdfund.component'
+import { CrowdfundComponent } from './crowdfund/crowdfund.component';
+import { TokenComponent } from './token/token.component'
 
 const SERVICES = [
   MetaCoinService,
   Web3Service,
+  TokenService
 ]
 
 @NgModule({
@@ -22,7 +24,8 @@ const SERVICES = [
   declarations: [
     AppComponent,
     MetacoinComponent,
-    CrowdfundComponent
+    CrowdfundComponent,
+    TokenComponent
   ],
   providers: [SERVICES],
   bootstrap: [AppComponent]

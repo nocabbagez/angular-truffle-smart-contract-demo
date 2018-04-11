@@ -1,0 +1,117 @@
+<div>Account: {{account || loading}}</div>
+<div>Account Balance: {{symbol}} {{balance || loading}} </div>
+<div>Token: {{name}}</div>
+<div>Allowance: {{checkAllowance}} for account {{checkAllowanceAddress}}</div>
+
+ <h1 class="title is-4 is-info help">{{status}}</h1>
+
+ <form #coinForm="ngForm">
+    <div class="field">
+      <label class="label">Value</label>
+      <p class="control">
+        <input
+          [(ngModel)]="sendingAmount"
+          class="input"
+          type="text"
+          name="sendingAmount"
+          required
+          #sendingAmountModel="ngModel">
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">To Address</label>
+      <p class="control">
+        <input
+          [(ngModel)]="recipientAddress"
+          name="recipientAddress"
+          class="input"
+          type="text"
+          required
+          #recipientAddressModel="ngModel"
+        >
+      </p>
+    </div>
+
+    <div class="field is-grouped">
+      <p class="control">
+        <button
+          (click)="transfer()"
+          class="button is-primary">
+          Send
+        </button>
+      </p>
+    </div>
+  </form>
+
+  <br>
+
+  <form #allowanceForm="ngForm">
+    <div class="field">
+      <label class="label"><form #allowanceForm="ngForm">
+    <div class="field">
+      <label class="label">Set Allowance</label>
+      <p class="control">
+        <input
+          [(ngModel)]="allowance"
+          class="input"
+          type="text"
+          name="allowance"
+          required
+          #allowanceModel="ngModel">
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">For Account</label>
+      <p class="control">
+        <input
+          [(ngModel)]="allowanceForAddress"
+          name="allowanceForAddress"
+          class="input"
+          type="text"
+          required
+          #allowanceForAddressModel="ngModel"
+        >
+      </p>
+    </div>
+
+    <div class="field is-grouped">
+      <p class="control">
+        <button
+          (click)="setAllowance()"
+          class="button is-primary">
+          Send
+        </button>
+      </p>
+    </div>
+  </form>
+
+
+  <form #checkAllowanceForm="ngForm">
+    <div class="field">
+      <label class="label"><form #checkAllowanceForm="ngForm">
+    <div class="field">
+      <label class="label">Check Allowance From Account</label>
+      <p class="control">
+        <input
+          [(ngModel)]="checkAllowanceAddress"
+          name="checkAllowanceAddress"
+          class="input"
+          type="text"
+          required
+          #checkAllowanceAddressModel="ngModel"
+        >
+      </p>
+    </div>
+
+    <div class="field is-grouped">
+      <p class="control">
+        <button
+          (click)="getAllowance()"
+          class="button is-primary">
+          Send
+        </button>
+      </p>
+    </div>
+  </form>
