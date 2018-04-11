@@ -23,6 +23,10 @@ export class TokenComponent implements OnInit {
 
   checkAllowance: number;
   checkAllowanceAddress:string;
+
+  fromAmount: number;
+  fromAddress: string;
+
   // 0xf17f52151ebef6c7334fad080c5704d77216b732
   status: string;
 
@@ -86,6 +90,16 @@ export class TokenComponent implements OnInit {
         this.refreshBalance();
       }, e => this.setStatus('Error sending coin; see log.'))
   };
+  
+  transferFrom = () => {
+    this.setStatus('Initiating transaction... (please wait)');
+
+    this.tokenService.transferFrom(this.account, this.fromAddress, this.fromAmount)
+      .subscribe(() =>{
+        this.setStatus('Transaction complete!');
+        this.refreshBalance();
+      }, e => this.setStatus('Error sending coin; see log.'))
+  };
 
   getAllowance = () => {
       this.tokenService.getAllowance(this.account, this.checkAllowanceAddress)
@@ -101,6 +115,7 @@ export class TokenComponent implements OnInit {
       .subscribe(() =>{
         this.setStatus('Allowance Set!');
         this.refreshBalance();
+        this.getAllowance();
       }, e => this.setStatus('Error setting allowance; see log.'))
   };
 

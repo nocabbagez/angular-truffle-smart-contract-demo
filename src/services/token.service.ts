@@ -97,6 +97,26 @@ export class TokenService {
   	})
   }
 
+  transferFrom(to, from, amount): Observable<any>{
+  	return Observable.create(observer => {
+  	  this.Token
+  	    .deployed()
+  	    .then(instance => {
+  	      return instance.transferFrom(from, to, amount, {
+  	        from: to
+  	      });
+  	    })
+  	    .then(() => {
+  	      observer.next()
+  	      observer.complete()
+  	    })
+  	    .catch(e => {
+  	    	console.log(e);
+  	      observer.error(e)
+  	    });
+  	})
+  }
+
   getAllowance(account, forAccount): Observable<number> {
       return Observable.create(observer => {
         this.Token
