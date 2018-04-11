@@ -10,7 +10,7 @@ export class TokenComponent implements OnInit {
   account: any;
   accounts: any;
 
-  balance: number;
+  balance: number | string;
 
   name: string;
   symbol: string;
@@ -51,10 +51,11 @@ export class TokenComponent implements OnInit {
       // This is run from window:load and ZoneJS is not aware of it we
       // need to use _ngZone.run() so that the UI updates on promise resolution
       this._ngZone.run(() => {
-        this.refreshBalance();
-        this.getName();
-        this.getSymbol();
-        // this.getAllAllowance();
+        setTimeout(() => {
+          this.refreshBalance();
+          this.getName();
+          this.getSymbol();
+        }, 2000);  
       });
     }, err => alert(err))
   };
@@ -87,7 +88,13 @@ export class TokenComponent implements OnInit {
     this.tokenService.transfer(this.account, this.recipientAddress, this.sendingAmount)
       .subscribe(() =>{
         this.setStatus('Transaction complete!');
-        this.refreshBalance();
+        this.balance = this.loading;
+
+        this._ngZone.run(() => {
+          setTimeout(() => {
+            this.refreshBalance();
+          }, 4000);  
+        });
       }, e => this.setStatus('Error sending coin; see log.'))
   };
   
@@ -97,7 +104,13 @@ export class TokenComponent implements OnInit {
     this.tokenService.transferFrom(this.account, this.fromAddress, this.fromAmount)
       .subscribe(() =>{
         this.setStatus('Transaction complete!');
-        this.refreshBalance();
+        this.balance = this.loading;
+
+        this._ngZone.run(() => {
+          setTimeout(() => {
+            this.refreshBalance();
+          }, 2000);  
+        }); 
       }, e => this.setStatus('Error sending coin; see log.'))
   };
 

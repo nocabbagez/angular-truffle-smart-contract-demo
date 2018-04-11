@@ -7,7 +7,7 @@
         <h1 class="title">      
             <div>Account: {{account || loading}}</div>
             <div>Account Balance: {{symbol}} {{balance || loading}} </div>
-            <div>Token: {{name}}</div>
+            <div>Token Name: {{name || loading}}</div>
             <div *ngIf="checkAllowance && checkAllowanceAddress">Allowance: {{checkAllowance}} for account {{checkAllowanceAddress}}</div>
         </h1>
         <!-- </div> -->
