@@ -1,150 +1,192 @@
-<div>Account: {{account || loading}}</div>
-<div>Account Balance: {{symbol}} {{balance || loading}} </div>
-<div>Token: {{name}}</div>
-<div>Allowance: {{checkAllowance}} for account {{checkAllowanceAddress}}</div>
-
- <h1 class="title is-4 is-info help">{{status}}</h1>
-
- <form #coinForm="ngForm">
-    <div class="field">
-      <label class="label">Value</label>
-      <p class="control">
-        <input
-          [(ngModel)]="sendingAmount"
-          class="input"
-          type="text"
-          name="sendingAmount"
-          required
-          #sendingAmountModel="ngModel">
-      </p>
+<div class="hero is-medium is-primary is-bold is-info">
+    <!-- <div class="hero-body"> -->
+        <div class="container">
+        <h1 class="title is-1">
+            Smart Contracts - Angular + Truffle DApp Demo
+        </h1>
+        <h1 class="title">      
+            <div>Account: {{account || loading}}</div>
+            <div>Account Balance: {{symbol}} {{balance || loading}} </div>
+            <div>Token: {{name}}</div>
+            <div *ngIf="checkAllowance && checkAllowanceAddress">Allowance: {{checkAllowance}} for account {{checkAllowanceAddress}}</div>
+        </h1>
+        <!-- </div> -->
+    </div>
     </div>
 
-    <div class="field">
-      <label class="label">To Address</label>
-      <p class="control">
-        <input
-          [(ngModel)]="recipientAddress"
-          name="recipientAddress"
-          class="input"
-          type="text"
-          required
-          #recipientAddressModel="ngModel"
-        >
-      </p>
+    <div class="container">
+         <h1 class="title is-4 is-danger help">{{status}}</h1>
+    </div>
+    
+    <div class="tile">
+            <div class="tile is-parent">
+                <div class="tile is-child notification is-success">
+                    <p class="title">Send {{name}}</p>
+                    <form #coinForm="ngForm">
+                            <div class="field">
+                              <label class="label">Value</label>
+                              <p class="control">
+                                <input
+                                  [(ngModel)]="sendingAmount"
+                                  class="input"
+                                  type="text"
+                                  name="sendingAmount"
+                                  required
+                                  #sendingAmountModel="ngModel">
+                              </p>
+                            </div>
+                        
+                            <div class="field">
+                              <label class="label">To Account</label>
+                              <p class="control">
+                                <input
+                                  [(ngModel)]="recipientAddress"
+                                  name="recipientAddress"
+                                  class="input"
+                                  type="text"
+                                  required
+                                  #recipientAddressModel="ngModel"
+                                >
+                              </p>
+                            </div>
+                        
+                            <div class="field is-grouped">
+                              <p class="control">
+                                <button
+                                  (click)="transfer()"
+                                  class="button">
+                                  Send
+                                </button>
+                              </p>
+                            </div>
+                          </form>                        
+              
+                </div>
+            </div>
+            <div class="tile is-parent">
+              <div class="tile is-child notification is-success">
+                <p class="title">Get {{name}}</p>
+                <form #coinRequestForm="ngForm">
+                        <div class="field">
+                            <label class="label">Get Token From Account</label>
+                            <p class="control">
+                                <input
+                                [(ngModel)]="fromAddress"
+                                name="fromAddress"
+                                class="input"
+                                type="text"
+                                required
+                                #fromAddressModel="ngModel"
+                                >
+                            </p>
+                        </div>
+                    
+                        <div class="field">
+                          <label class="label">Value</label>
+                          <p class="control">
+                            <input
+                              [(ngModel)]="fromAmount"
+                              class="input"
+                              type="text"
+                              name="fromAmount"
+                              required
+                              #fromAmountModel="ngModel">
+                          </p>
+                        </div>
+                    
+                        <div class="field is-grouped">
+                          <p class="control">
+                            <button
+                              (click)="transferFrom()"
+                              class="button">
+                              Get Tokens
+                            </button>
+                          </p>
+                        </div>
+                      </form>
+                    
+              </div>
+            </div>
     </div>
 
-    <div class="field is-grouped">
-      <p class="control">
-        <button
-          (click)="transfer()"
-          class="button is-primary">
-          Send
-        </button>
-      </p>
-    </div>
-  </form>
-
- <form #coinRequestForm="ngForm">
-    <div class="field">
-        <label class="label">Get Token From Address</label>
-        <p class="control">
-            <input
-            [(ngModel)]="fromAddress"
-            name="fromAddress"
-            class="input"
-            type="text"
-            required
-            #fromAddressModel="ngModel"
-            >
-        </p>
-    </div>
-
-    <div class="field">
-      <label class="label">Value</label>
-      <p class="control">
-        <input
-          [(ngModel)]="fromAmount"
-          class="input"
-          type="text"
-          name="fromAmount"
-          required
-          #fromAmountModel="ngModel">
-      </p>
-    </div>
-
-    <div class="field is-grouped">
-      <p class="control">
-        <button
-          (click)="transferFrom()"
-          class="button is-primary">
-          Get Tokens
-        </button>
-      </p>
-    </div>
-  </form>
-
-  <form #allowanceForm="ngForm">
-    <div class="field">
-      <label class="label">Set Allowance</label>
-      <p class="control">
-        <input
-          [(ngModel)]="allowance"
-          class="input"
-          type="text"
-          name="allowance"
-          required
-          #allowanceModel="ngModel">
-      </p>
-    </div>
-
-    <div class="field">
-      <label class="label">For Account</label>
-      <p class="control">
-        <input
-          [(ngModel)]="allowanceForAddress"
-          name="allowanceForAddress"
-          class="input"
-          type="text"
-          required
-          #allowanceForAddressModel="ngModel"
-        >
-      </p>
-    </div>
-
-    <div class="field is-grouped">
-      <p class="control">
-        <button
-          (click)="setAllowance()"
-          class="button is-primary">
-          Set Allowance
-        </button>
-      </p>
-    </div>
-  </form>
-
-
-  <form #checkAllowanceForm="ngForm">
-    <div class="field">
-      <label class="label">Check Allowance From Account</label>
-      <p class="control">
-        <input
-          [(ngModel)]="checkAllowanceAddress"
-          name="checkAllowanceAddress"
-          class="input"
-          type="text"
-          required
-          #checkAllowanceAddressModel="ngModel"
-        >
-      </p>
+    <div class="tile">
+            <div class="tile is-parent">
+                <div class="tile is-child notification is-primary">
+                    <p class="title">Set Allowance</p>
+                    <form #allowanceForm="ngForm">
+                            <div class="field">
+                              <label class="label">Allowance of </label>
+                              <p class="control">
+                                <input
+                                  [(ngModel)]="allowance"
+                                  class="input"
+                                  type="text"
+                                  name="allowance"
+                                  required
+                                  #allowanceModel="ngModel">
+                              </p>
+                            </div>
+                        
+                            <div class="field">
+                              <label class="label">For Account</label>
+                              <p class="control">
+                                <input
+                                  [(ngModel)]="allowanceForAddress"
+                                  name="allowanceForAddress"
+                                  class="input"
+                                  type="text"
+                                  required
+                                  #allowanceForAddressModel="ngModel"
+                                >
+                              </p>
+                            </div>
+                        
+                            <div class="field is-grouped">
+                              <p class="control">
+                                <button
+                                  (click)="setAllowance()"
+                                  class="button">
+                                  Set Allowance
+                                </button>
+                              </p>
+                            </div>
+                          </form>
+                        
+                </div>
+            </div>
+            <div class="tile is-parent">
+              <div class="tile is-child notification is-primary">
+                <p class="title">Check Allowancee</p>
+                <form #checkAllowanceForm="ngForm">
+                        <div class="field">
+                          <label class="label">From Account</label>
+                          <p class="control">
+                            <input
+                              [(ngModel)]="checkAllowanceAddress"
+                              name="checkAllowanceAddress"
+                              class="input"
+                              type="text"
+                              required
+                              #checkAllowanceAddressModel="ngModel"
+                            >
+                          </p>
+                        </div>
+                    
+                        <div class="field is-grouped">
+                          <p class="control">
+                            <button
+                              (click)="getAllowance()"
+                              class="button">
+                              Check Allowance
+                            </button>
+                          </p>
+                        </div>
+                      </form>
+                    
+              </div>
+            </div>
     </div>
 
-    <div class="field is-grouped">
-      <p class="control">
-        <button
-          (click)="getAllowance()"
-          class="button is-primary">
-          Check Allowance
-        </button>
-      </p>
-    </div>
-  </form>
+
+
+
